@@ -33,18 +33,12 @@ public class CustomerController {
 
     }
 
+
+
     @PostMapping()
-    public ResponseEntity<String> createCustomer(@RequestBody newCustomerRequest request){
+    public ResponseEntity<Customer> createCustomer(@RequestBody newCustomerRequest request){
 
-        if (request.name == null || request.email == null || request.age == null) {
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(request + " cannot have a null value");
-
-        }else {
-            customerService.addCustomer(request.name, request.email, request.age);
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body("User has been created successfully");
-        }
-
+            return customerService.addCustomer(request.name, request.email, request.age);
 
     }
 
@@ -55,19 +49,10 @@ public class CustomerController {
 
 
     @PutMapping("{customerId}")
-    public ResponseEntity<String> updateCustomer(@PathVariable("customerId") Integer id, @RequestBody newCustomerRequest request){
-        try {
-            if (request.name == null || request.email == null || request.age == null) {
+    public ResponseEntity<Customer> updateCustomer(@PathVariable("customerId") Integer id, @RequestBody newCustomerRequest request){
 
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(request + " cannot have a null value");
+        return  customerService.updateCustomer(id, request.name, request.email, request.age);
 
-            }
-                customerService.updateCustomer(id, request.name, request.email, request.age);
-
-            return ResponseEntity.ok("Resource updated successfully");
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
     }
 
 

@@ -15,6 +15,7 @@ import java.util.Optional;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
+    CustomExceptions customExceptions;
 
 
     @Autowired
@@ -25,51 +26,69 @@ public class CustomerService {
 
 
 
-    public void addCustomer(String name, String email, Integer age){
+    public ResponseEntity addCustomer(String name, String email, Integer age){
         Customer customer = new Customer();
+         customExceptions = new CustomExceptions(500,"name, " + ", email" + ", or age must not contain null value",
+                "Please fill required fields for registration -- " + "name " + name + " email " + email + " age " + age);
 
 
-            customer.setName(name);
-            log.info(name + " Attempting to save name");
-            customer.setEmail(email);
-            log.info(email + " Attempting to save email");
-            customer.setAge(age);
-            log.info(age + " Attempting to save age");
-            customerRepository.save(customer);
 
+            if (!(name == null) && !(email == null) && !(age == null)) {
+
+                customer.setName(name);
+                log.info(name + " Attempting to save name");
+                customer.setEmail(email);
+                log.info(email + " Attempting to save email");
+                customer.setAge(age);
+                log.info(age + " Attempting to save age");
+                customerRepository.save(customer);
+                return new ResponseEntity<>(customer, HttpStatus.CREATED);
+            }else {
+                return new ResponseEntity<>(customExceptions, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
 
     }
 
 
-//    public void updateCustomer(Integer id, String name, String email, Integer age){
-//
-//       Optional<Customer> customer = customerRepository.findById(id);
-//
-//        if(customerRepository.findById(id).isPresent()) {
-//            customer.setName(name);
-//            customer.setEmail(email);
-//            customer.setAge(age);
-//
-//            customer.
-//        }else{
-//
-//        }
-//    }
 
-    public void updateCustomer(Integer id, String name, String email, Integer age) {
+
+
+    public ResponseEntity updateCustomer(Integer id, String name, String email, Integer age) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("Resource not found"));
 
-        // Update the existing resource with the new data
-        customer.setName(name);
-        log.info(name + " attempting to update customer name");
-        customer.setEmail(email);
-        log.info(email + " attempting to update customer email");
-        customer.setAge(age);
-        log.info(age + " attempting to update customer age");
+        customExceptions = new CustomExceptions(500,"name, " + ", email" + ", or age must not contain null value",
+                "Please fill required fields for registration -- " + "name " + name + " email " + email + " age " + age);
 
-        // Save the updated resource
-        customerRepository.save(customer);
+
+            if (!(name == null) && !(email == null) && !(age == null)) {
+
+                // Update the existing resource with the new data
+                customer.setName(name);
+                log.info(name + " attempting to update customer name");
+                customer.setEmail(email);
+                log.info(email + " attempting to update customer email");
+                customer.setAge(age);
+                log.info(age + " attempting to update customer age");
+
+                // Save the updated resource
+                customerRepository.save(customer);
+
+                return new ResponseEntity<>(customer,HttpStatus.ACCEPTED);
+
+
+
+            }
+            else {
+                return new ResponseEntity<>(customExceptions, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+
+
+
+
+
+
     }
 
 
