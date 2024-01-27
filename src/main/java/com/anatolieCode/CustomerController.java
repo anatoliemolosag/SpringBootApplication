@@ -20,14 +20,14 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-
+    //TODO move logic to the service class
     @GetMapping
     public List<Customer> getCustomer(){
         return customerRepository.findAll();
 
     }
 
-    record newCustomerRequest(String name,
+     record newCustomerRequest(String name,
                               String email,
                               Integer age){
 
