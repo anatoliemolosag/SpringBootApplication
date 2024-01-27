@@ -42,6 +42,7 @@ public class CustomerService {
                 customer.setAge(age);
                 log.info(age + " Attempting to save age");
                 customerRepository.save(customer);
+                log.info("empty line");
                 return new ResponseEntity<>(customer, HttpStatus.CREATED);
 
             }else {
