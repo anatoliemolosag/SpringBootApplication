@@ -43,6 +43,7 @@ public class CustomerService {
                 log.info(age + " Attempting to save age");
                 customerRepository.save(customer);
                 return new ResponseEntity<>(customer, HttpStatus.CREATED);
+
             }else {
                 return new ResponseEntity<>(customExceptions, HttpStatus.INTERNAL_SERVER_ERROR);
             }
@@ -82,8 +83,6 @@ public class CustomerService {
             else {
                 return new ResponseEntity<>(customExceptions, HttpStatus.INTERNAL_SERVER_ERROR);
             }
-
-
 
 
 
