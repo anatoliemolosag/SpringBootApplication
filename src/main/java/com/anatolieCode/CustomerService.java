@@ -28,13 +28,21 @@ public class CustomerService {
 
     public ResponseEntity addCustomer(String name, String email, Integer age){
         Customer customer = new Customer();
-         customExceptions = new CustomExceptions(500,"name, " + ", email" + ", or age must not contain null value",
-                "Please fill required fields for registration -- " + "name " + name + " email " + email + " age " + age);
+
+         Optional<Customer> customerOptional = customerRepository.findCustomerByEmail(email);
 
 
+            if(customerOptional.isPresent()){
+
+             log.info(String.valueOf(customerOptional.isPresent()));
+             return new ResponseEntity<>(new CustomExceptions(406, email + " - email already exists in our database","Please sign up with a different email")  ,HttpStatus.NOT_ACCEPTABLE);
+
+             }
 
             if (!(name == null) && !(email == null) && !(age == null)) {
 
+
+                log.info(String.valueOf(customerOptional.isPresent()));
                 customer.setName(name);
                 log.info(name + " Attempting to save name");
                 customer.setEmail(email);
@@ -45,7 +53,8 @@ public class CustomerService {
                 return new ResponseEntity<>(customer, HttpStatus.CREATED);
 
             }else {
-                return new ResponseEntity<>(customExceptions, HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>(new CustomExceptions(500,"name, " + ", email" + ", or age must not contain null value",
+                        "Please fill required fields for registration -- " + "name " + name + " email " + email + " age " + age), HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
     }
