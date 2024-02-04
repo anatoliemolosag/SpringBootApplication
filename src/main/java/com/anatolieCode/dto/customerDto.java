@@ -1,4 +1,4 @@
-package com.anatolieCode;
+package com.anatolieCode.dto;
 
 public class customerDto {
 }

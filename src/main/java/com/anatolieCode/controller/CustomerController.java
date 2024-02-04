@@ -1,7 +1,9 @@
-package com.anatolieCode;
+package com.anatolieCode.controller;
 
+import com.anatolieCode.model.Customer;
+import com.anatolieCode.repository.jpa.CustomerRepository;
+import com.anatolieCode.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +38,7 @@ public class CustomerController {
 
 
     @PostMapping()
-    public ResponseEntity<Customer> createCustomer(@RequestBody newCustomerRequest request){
+    public ResponseEntity createCustomer(@RequestBody newCustomerRequest request){
 
             return customerService.addCustomer(request.name, request.email, request.age);
 
