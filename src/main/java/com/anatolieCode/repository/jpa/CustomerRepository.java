@@ -1,5 +1,6 @@
-package com.anatolieCode;
+package com.anatolieCode.repository.jpa;
 
+import com.anatolieCode.model.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

@@ -1,4 +1,4 @@
-package com.anatolieCode;
+package com.anatolieCode.model;
 
 import jakarta.persistence.*;
 
